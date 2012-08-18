@@ -1,0 +1,4 @@
+File: nunit.framework.dll
+Version: 2.6.0.12051
+
+Get it here: http://www.nunit.org

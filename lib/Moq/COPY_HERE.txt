@@ -1,0 +1,4 @@
+File: moq.dll
+Version: 4.0.10827
+
+Get it here: http://code.google.com/p/moq/
