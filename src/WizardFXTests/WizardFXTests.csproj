@@ -47,8 +47,6 @@
     <Compile Include="MockFactories\MockControllerFactory.cs" />
     <Compile Include="MockFactories\MockStepFactory.cs" />
     <Compile Include="MockFactories\MockViewFactory.cs" />
-    <Compile Include="HandmadeMocks\MockWizardStep.cs" />
-    <Compile Include="HandmadeMocks\MockWizardView.cs" />
     <Compile Include="WizardControllerTests.cs" />
     <Compile Include="WizardStepTests.cs" />
     <Compile Include="WizardTests.cs" />

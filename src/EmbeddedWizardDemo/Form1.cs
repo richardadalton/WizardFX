@@ -9,11 +9,11 @@ namespace EmbeddedWizardDemo
         {
             InitializeComponent();
 
-            var controller = new WizardController(wizardView);
-
             var wizard = new Wizard();
             wizard.AddStep(new Step1())
                   .AddStep(new Step2());
+
+            var controller = new WizardController(wizardView);
             controller.Start(wizard);
         }
 

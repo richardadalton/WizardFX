@@ -15,20 +15,20 @@ namespace WizardFX
             WireEventsToView(view);
         }
 
+        public IWizardStep CurrentStep
+        {
+            get { return _activeWizard.CurrentStep; }
+        }
+
         public void Start(Wizard wizard)
         {
             if (_activeWizard != null)
                 _wizardStack.Push(_activeWizard);
 
-            wizard.Controller = this;
             _activeWizard = wizard;
+            _activeWizard.StartWith(this);
 
-            OnMovedNext(_view, EventArgs.Empty);
-        }
-
-        public IWizardStep CurrentStep
-        {
-            get { return _activeWizard.CurrentStep; }
+            ShowWizard(_view);
         }
 
         private void OnMovedNext(object sender, EventArgs e)
@@ -69,7 +69,7 @@ namespace WizardFX
             var view = sender as IWizardView;
             if (view == null) return;
 
-            _activeWizard.Cancel();
+            _activeWizard.Exit();
             if (_wizardStack.Count > 0)
             {
                 _activeWizard = _wizardStack.Pop();
@@ -82,20 +82,13 @@ namespace WizardFX
         private void ShowWizard(IWizardView view)
         {
             view.ShowStep(CurrentStep);
-            view.AllowMovePrevious(CanMovePrevious());
-            view.AllowMoveNext(CanMoveNext()); 
+            view.IsFirstStep(_activeWizard.IsFirstStep());
+            view.IsLastStep(IsLastStep()); 
         }
 
-        private bool CanMovePrevious()
+        private bool IsLastStep()
         {
-            var firstStep = _activeWizard.IsAtFirstStep;
-            return !firstStep;
-        }
-
-        private bool CanMoveNext()
-        {
-            var lastStep = (_activeWizard.IsAtLastStep && _wizardStack.Count == 0);
-            return !lastStep;            
+            return (!_activeWizard.IsLastStep() || _wizardStack.Count != 0);
         }
 
         private void WireEventsToView(IWizardView view)

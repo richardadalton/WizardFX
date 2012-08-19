@@ -45,6 +45,11 @@ namespace WizardFX
             EveryTimeVisited();
         }
 
+        public void StartSubWizard(Wizard subWizard)
+        {
+            ParentWizard.StartSubWizard(subWizard);
+        }
+
         public virtual void FirstTimeVisited() { }
         public virtual void EveryTimeVisited() { }
         public virtual void LeavingStep() { }

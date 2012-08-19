@@ -29,7 +29,7 @@ namespace WizardFXDemo
             var subWizard = new Wizard("LeftList");
             subWizard.AddStep(new SubStep1_1());
 
-            ParentWizard.Controller.Start(subWizard);
+            ParentWizard.StartSubWizard(subWizard);
         }
 
         private void button2_click(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace WizardFXDemo
             var subWizard = new Wizard("RightList");
             subWizard.AddStep(new SubStep1_1());
 
-            ParentWizard.Controller.Start(subWizard);
+            ParentWizard.StartSubWizard(subWizard);
         }
 
         public override void ResumeFrom(string wizardName, Args args)

@@ -8,20 +8,17 @@ namespace WizardFXTests
     [TestFixture]
     class WizardControllerTests
     {
-        [Test]
-        public void wizard_controller_is_set_when_starting()
-        {
-            var step = new WizardStep();
 
-            var wizard = new Wizard()
-                                    .AddStep(step);
 
-            var view = new MockViewFactory().AView.Mock();
-            var controller = new WizardController(view.Object);
 
-            controller.Start(wizard);
-            Assert.AreEqual(controller, wizard.Controller);
-        }
+
+
+
+
+
+
+
+
 
 
         [Test]
@@ -100,7 +97,7 @@ namespace WizardFXTests
 
             var view = new MockViewFactory().AView.Mock();
             var controller = new WizardController(view.Object);
-
+            
             controller.Start(mainWizard);
             view.Raise(v => v.MovedNext += null, EventArgs.Empty);
             Assert.AreEqual(step2, controller.CurrentStep, "At Step 2 before starting Sub Wizard");

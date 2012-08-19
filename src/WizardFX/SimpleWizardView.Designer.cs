@@ -60,8 +60,5 @@
         #endregion
 
         private WizardView wizardView;
-
-
-
     }
 }

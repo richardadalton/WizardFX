@@ -9,17 +9,10 @@ namespace WizardFXTests
         private Wizard _wizard;
 
         [Test]
-        public void new_wizard_has_zero_steps()
+        public void a_wizard_can_have_a_title()
         {
-            _wizard = new Wizard();
-            Assert.AreEqual(0, _wizard.NumberOfSteps);
-        }
-
-        [Test]
-        public void new_wizard_is_not_started()
-        {
-            _wizard = new Wizard();
-            Assert.AreEqual(false, _wizard.InProcess);
+            _wizard = new Wizard("Any Title");
+            Assert.AreEqual("Any Title", _wizard.Title);
         }
 
         [Test]
@@ -31,21 +24,12 @@ namespace WizardFXTests
         }
 
         [Test]
-        public void can_add_step_to_a_wizard()
+        [ExpectedException("System.ApplicationException")]
+        public void empty_wizard_throws_an_exception_on_start()
         {
             _wizard = new Wizard();
-            _wizard.AddStep(new WizardStep());
-            Assert.AreEqual(1, _wizard.NumberOfSteps);
-        }
-
-        [Test]
-        public void can_add_multiple_steps_to_a_wizard()
-        {
-            _wizard = new Wizard();
-            _wizard.AddStep(new WizardStep())
-                  .AddStep(new WizardStep());
-
-            Assert.AreEqual(2, _wizard.NumberOfSteps);
+            _wizard.Start();
+            _wizard.MoveNext();
         }
 
         [Test]
@@ -54,33 +38,48 @@ namespace WizardFXTests
             var step = new WizardStep();
 
             var wizard = new Wizard()
-                                    .AddStep(step);
+                .AddStep(step);
 
             Assert.AreEqual(wizard, step.ParentWizard);
+        }
+
+
+
+        [Test]
+        public void new_wizard_is_not_started()
+        {
+            _wizard = new Wizard();
+            Assert.AreEqual(false, _wizard.InProcess);
         }
 
 
         [Test]
         public void move_next_increments_current_step()
         {
-            _wizard = new Wizard();
-            _wizard.AddStep(new WizardStep());
-            _wizard.AddStep(new WizardStep());
+            var step1 = new WizardStep();
+            var step2 = new WizardStep();
+
+            _wizard = new Wizard()
+                .AddStep(step1)
+                .AddStep(step2);
+
+            _wizard.Start();
             _wizard.MoveNext();
-            Assert.AreEqual(1, _wizard.CurrentStepIndex);
-            _wizard.MoveNext();
-            Assert.AreEqual(2, _wizard.CurrentStepIndex);
+            Assert.AreEqual(step2, _wizard.CurrentStep);
         }
 
         [Test]
-        public void move_next_on_unstarted_wizard_starts_it()
+        [ExpectedException("System.ApplicationException")]
+        public void can_not_move_next_on_an_unstarted_wizard()
         {
-            _wizard = new Wizard();
-            _wizard.AddStep(new WizardStep());
-            _wizard.AddStep(new WizardStep());
+            var step1 = new WizardStep();
+
+            _wizard = new Wizard()
+                .AddStep(step1);
+
             _wizard.MoveNext();
             Assert.AreEqual(true, _wizard.InProcess);
-            Assert.AreEqual(1, _wizard.CurrentStepIndex);
+            Assert.AreEqual(step1, _wizard.CurrentStep);
         }
 
         [Test]
@@ -88,7 +87,7 @@ namespace WizardFXTests
         {
             _wizard = new Wizard();
             _wizard.AddStep(new WizardStep());
-            _wizard.MoveNext();  // Starts Wizard and Moves to First Step
+            _wizard.Start();  // Starts Wizard and Moves to First Step
             _wizard.MoveNext();  // Only one step so this ends the wizard
             Assert.AreEqual(false, _wizard.InProcess);
         }
@@ -96,13 +95,17 @@ namespace WizardFXTests
         [Test]
         public void move_previous_decrements_current_step()
         {
-            _wizard = new Wizard();
-            _wizard.AddStep(new WizardStep());
-            _wizard.AddStep(new WizardStep());
-            _wizard.MoveNext();
-            _wizard.MoveNext();
+            var step1 = new WizardStep();
+            var step2 = new WizardStep();
+
+            _wizard = new Wizard()
+                .AddStep(step1)
+                .AddStep(step2);
+
+            _wizard.Start();
+            _wizard.JumpToStep(2);
             _wizard.MovePrevious();
-            Assert.AreEqual(1, _wizard.CurrentStepIndex);
+            Assert.AreEqual(step1, _wizard.CurrentStep);
         }
 
         [Test]
@@ -119,7 +122,7 @@ namespace WizardFXTests
         {
             _wizard = new Wizard();
             _wizard.AddStep(new WizardStep());
-            _wizard.MoveNext();  // Starts Wizard and Moves to First Step
+            _wizard.Start();  // Starts Wizard and Moves to First Step
             _wizard.MovePrevious();  // Only one step so this ends the wizard
             Assert.AreEqual(false, _wizard.InProcess);
         }
@@ -129,9 +132,10 @@ namespace WizardFXTests
         {
             _wizard = new Wizard();
             _wizard.AddStep(new WizardStep());
-            _wizard.MoveNext();
+            _wizard.Start();
+
             Assert.AreEqual(true, _wizard.InProcess);
-            _wizard.Cancel();
+            _wizard.Exit();
             Assert.AreEqual(false, _wizard.InProcess);
         }
 
@@ -142,16 +146,16 @@ namespace WizardFXTests
         public void wizard_reports_when_at_first_step()
         {
             var wizard = new Wizard()
-                                    .AddStep(new WizardStep())
-                                    .AddStep(new WizardStep());
+                .AddStep(new WizardStep())
+                .AddStep(new WizardStep());
+
+            wizard.Start();
+            Assert.AreEqual(true, wizard.IsFirstStep());
+            Assert.AreEqual(false, wizard.IsLastStep());
 
             wizard.MoveNext();
-            Assert.AreEqual(true, wizard.IsAtFirstStep);
-            Assert.AreEqual(false, wizard.IsAtLastStep);
-
-            wizard.MoveNext();
-            Assert.AreEqual(false, wizard.IsAtFirstStep);
-            Assert.AreEqual(true, wizard.IsAtLastStep);
-        } 
+            Assert.AreEqual(false, wizard.IsFirstStep());
+            Assert.AreEqual(true, wizard.IsLastStep());
+        }
     }
 }

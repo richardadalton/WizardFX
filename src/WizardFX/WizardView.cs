@@ -18,14 +18,14 @@ namespace WizardFX
         public bool CanMoveNext { get; set; }
         public bool CanMovePrevious { get; set; }
 
-        public void AllowMovePrevious(bool allow)
+        public void IsFirstStep(bool value)
         {
-            previousButton.Enabled = allow;
+            previousButton.Enabled = !value;
         }
 
-        public void AllowMoveNext(bool allow)
+        public void IsLastStep(bool value)
         {
-            nextButton.Text = allow ? "&Next" : "&Finish";
+            nextButton.Text = value ? "&Finish" : "&Next";
         }
 
         public void ShowStep(IWizardStep step)
@@ -56,13 +56,14 @@ namespace WizardFX
 
         private void HideExistingSteps()
         {
-            foreach (WizardStep existing in Workspace.Controls)
-                existing.Hide();
+            foreach (WizardStep step in Workspace.Controls)
+                step.Hide();
         }
 
         private void DisplayStepWithinView(IWizardStep step)
         {
-            var stepForm = (WizardStep)step;
+            var stepForm = step as WizardStep;
+
             stepForm.TopLevel = false;
             stepForm.Parent = Workspace;
 

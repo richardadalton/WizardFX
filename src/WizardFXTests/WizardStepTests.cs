@@ -8,16 +8,16 @@ namespace WizardFXTests
     class WizardStepTests
     {
         [Test]
-        public void step_can_stop_move_next()
+        public void a_step_can_prevent_move_next_from_happening()
         {
             var step1 = new MockStepFactory().AStep.ThatCanNotMoveNext.Stub();
             var step2 = new MockStepFactory().AStep.Stub();
 
             var wizard = new Wizard()
-                                    .AddStep(step1)
-                                    .AddStep(step2);
+                .AddStep(step1)
+                .AddStep(step2);
 
-            wizard.MoveNext();
+            wizard.Start();
             Assert.AreEqual(step1, wizard.CurrentStep);
 
             wizard.MoveNext();
@@ -25,7 +25,7 @@ namespace WizardFXTests
         }
 
         [Test]
-        public void step_can_stop_move_previous()
+        public void a_step_can_prevent_move_previous_from_happening()
         {
             var step1 = new MockStepFactory().AStep.ThatCanMoveNext.Stub();
             var step2 = new MockStepFactory().AStep.ThatCanNotMovePrevious.Stub();
@@ -34,43 +34,12 @@ namespace WizardFXTests
                                     .AddStep(step1)
                                     .AddStep(step2);
 
+            wizard.Start();
             wizard.JumpToStep(2);
-            Assert.AreEqual(step2, wizard.CurrentStep, "Not at Step2 before MovePrevious");
+            Assert.AreEqual(step2, wizard.CurrentStep);
 
             wizard.MovePrevious();
-            Assert.AreEqual(step2, wizard.CurrentStep, "Not at Step2 after MovePrevious");
-        }
-
-        [Test]
-        public void new_step_has_0_args()
-        {
-            var step = new WizardStep();
-            Assert.AreEqual(0, step.Args.Count);
-        }
-
-        [Test]
-        public void can_add_individual_args_to_a_step()
-        {
-            var step = new WizardStep();
-
-            step.Args.Add("arg1", "A");
-            step.Args.Add("arg2", "B"); 
-
-            Assert.AreEqual(2, step.Args.Count);
-            Assert.AreEqual("A", step.Args["arg1"]);
-            Assert.AreEqual("B", step.Args["arg2"]);
-        }
-
-        [Test]
-        public void can_add_colection_of_args_to_a_step_in_constructor()
-        {
-            var args = new Args();
-            args.Add("arg1", "A");
-            args.Add("arg2", "B");
-
-            var step = new WizardStep(args);
-
-            Assert.AreEqual(args, step.Args);
+            Assert.AreEqual(step2, wizard.CurrentStep);
         }
 
         [Test]
@@ -87,6 +56,7 @@ namespace WizardFXTests
                                     .AddStep(step1)
                                     .AddStep(step2.Object);
 
+            wizard.Start();
             wizard.JumpToStep(2);
             wizard.MovePrevious();
             wizard.MoveNext();
@@ -108,8 +78,22 @@ namespace WizardFXTests
                                     .AddStep(step3)
                                     .AddStep(step4);
 
+            wizard.Start();
             wizard.JumpToStep(3);
             Assert.AreEqual(step3, wizard.CurrentStep);
         }
+
+        [Test]
+        [ExpectedException("System.ApplicationException")]
+        public void an_unstarted_wizard_throws_an_exception_on_jump_to_step()
+        {
+            var step = new WizardStep();
+
+            var wizard = new Wizard()
+                .AddStep(step);
+
+            wizard.JumpToStep(1);
+        }
+
     }
 }

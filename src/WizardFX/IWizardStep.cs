@@ -3,7 +3,6 @@
     public interface IWizardStep
     {
         Wizard ParentWizard { get; set; }
-
         Args Args { get; }
 
         bool OkToMoveNext();
@@ -13,6 +12,7 @@
         void EveryTimeVisited();
         void LeavingStep();
 
+        void StartSubWizard(Wizard subWizard);
         void ResumeFrom(string wizardName, Args args);
         void ResumeFrom(string wizardName);
     }

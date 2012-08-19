@@ -20,7 +20,7 @@ namespace WizardFXDemo
             var subWizard = new Wizard("SubWizard");
                 subWizard.AddStep(new SubStep1_1());
 
-            ParentWizard.Controller.Start(subWizard);
+            StartSubWizard(subWizard);
         }
 
         public override void ResumeFrom(string wizardName, Args args)

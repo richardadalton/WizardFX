@@ -8,8 +8,8 @@ namespace WizardFX
         event EventHandler MovedNext;
         event EventHandler Cancelled;
 
-        void AllowMovePrevious(bool allow);
-        void AllowMoveNext(bool allow);
+        void IsFirstStep(bool value);
+        void IsLastStep(bool value);
 
         void ShowStep(IWizardStep step);
         void Unload();

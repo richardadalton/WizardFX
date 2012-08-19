@@ -15,14 +15,14 @@ namespace WizardFX
             InitializeComponent();
         }
 
-        public void AllowMovePrevious(bool allow)
+        public void IsFirstStep(bool value)
         {
-            wizardView.AllowMovePrevious(allow);
+            wizardView.IsFirstStep(value);
         }
 
-        public void AllowMoveNext(bool allow)
+        public void IsLastStep(bool value)
         {
-            wizardView.AllowMoveNext(allow);
+            wizardView.IsLastStep(value);
         } 
 
         public void ShowStep(IWizardStep step)

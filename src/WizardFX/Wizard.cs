@@ -5,35 +5,24 @@ namespace WizardFX
 {
     public class Wizard
     {
+        private readonly string _title;
         private readonly List<IWizardStep> _steps = new List<IWizardStep>();
-        private readonly string _title = string.Empty;
+        private int _currentStepIndex;
         private readonly Args _args = new Args();
-
-        public Wizard() { }
+        private WizardController _controller;
         
-        public Wizard(string title) 
-        { 
-            _title = title; 
-        }
-
-        public int NumberOfSteps
-        {
-            get { return _steps.Count; }
-        }
-
-        public int CurrentStepIndex { get; private set; }
-
-        public IWizardStep CurrentStep
-        {
-            get { return _steps[CurrentStepIndex - 1]; }
-        }
+        public Wizard() { }
+        public Wizard(string title) { _title = title; }
 
         public string Title
-        {  
+        {
             get { return _title; }
         }
 
-        public WizardController Controller { get; set; }
+        public IWizardStep CurrentStep
+        {
+            get { return _steps[_currentStepIndex - 1]; }
+        }
 
         public Args Args
         {
@@ -42,15 +31,15 @@ namespace WizardFX
 
         public bool InProcess { get; private set; }
 
-        public bool IsAtFirstStep
+        public bool IsFirstStep()
         {
-            get { return CurrentStepIndex == 1; }
+            return _currentStepIndex == 1;
         }
 
-        public bool IsAtLastStep
+        public bool IsLastStep()
         {
-            get { return CurrentStepIndex == NumberOfSteps; }
-        }
+            return _currentStepIndex == _steps.Count;
+        } 
 
         public Wizard AddStep(IWizardStep step)
         {
@@ -59,58 +48,71 @@ namespace WizardFX
             return this;
         }
 
-        public void JumpToStep(int step)
+        public void StartWith(WizardController controller)
         {
-            if (!InProcess)
-                Start();
-
-            CurrentStep.LeavingStep();
-
-            CurrentStepIndex = step;
-
-            CurrentStep.Visit();
+            _controller = controller;
+            Start();
         }
 
-
-        public void MoveNext()
+        public void Start()
         {
-            if (!InProcess)
-                Start();
-            else
-                DoMoveNext();
-        }
+            if (_steps.Count == 0)
+                throw new ApplicationException("Can not start an empty Wizard");
 
-
-        private void DoMoveNext()
-        {
-            if (CurrentStep.OkToMoveNext())
-            {
-                CurrentStep.LeavingStep();
-                CurrentStepIndex += 1;
-            }
-
-            if (MovedPastLastStep())
-                Finish();
-            else
-                CurrentStep.Visit();
-        }
-
-        private bool MovedPastLastStep()
-        {
-            return CurrentStepIndex > NumberOfSteps;
-        }
-
-        private bool MovedPastFirstStep()
-        {
-            return CurrentStepIndex == 0;
+            _currentStepIndex = 1;
+            InProcess = true;
         }
 
         public void MovePrevious()
         {
             if (!InProcess)
                 throw new ApplicationException("Wizard is not started, can't move previous.");
-                
+
             DoMovePrevious();
+        }
+
+        public void MoveNext()
+        {
+            if (!InProcess)
+                throw new ApplicationException("Wizard is not started, can't move next.");
+
+            DoMoveNext();
+        }
+
+        public void JumpToStep(int step)
+        {
+            if (!InProcess)
+                throw new ApplicationException("Wizard is not started, can't jump to a step.");
+
+            CurrentStep.LeavingStep();
+
+            _currentStepIndex = step;
+
+            CurrentStep.Visit();
+        }
+
+        public void StartSubWizard(Wizard subWizard)
+        {
+            _controller.Start(subWizard);
+        }
+
+        public void Exit()
+        {
+            InProcess = false;
+        }
+
+        private void DoMoveNext()
+        {
+            if (CurrentStep.OkToMoveNext())
+            {
+                CurrentStep.LeavingStep();
+                _currentStepIndex++;
+            }
+
+            if (MovedPastLastStep())
+                Exit();
+            else
+                CurrentStep.Visit();
         }
 
         private void DoMovePrevious()
@@ -118,34 +120,24 @@ namespace WizardFX
             if (CurrentStep.OkToMovePrevious())
             {
                 CurrentStep.LeavingStep();
-                CurrentStepIndex -= 1;
+                _currentStepIndex--;
             }
 
             if (MovedPastFirstStep())
-                Cancel();
+                Exit();
             else
                 CurrentStep.Visit();
 
         }
 
-        public void Cancel()
+        private bool MovedPastLastStep()
         {
-            InProcess = false;
-            CurrentStepIndex = 0;
+            return _currentStepIndex > _steps.Count;
         }
 
-        public void Finish()
+        private bool MovedPastFirstStep()
         {
-            InProcess = false;
-        }
-
-        private void Start()
-        {
-            if (NumberOfSteps == 0)
-                throw new ApplicationException("Can not start an empty Wizard");
-
-            CurrentStepIndex = 1;
-            InProcess = true;
+            return _currentStepIndex == 0;
         }
     }
 }
