@@ -88,7 +88,8 @@ namespace WizardFX
 
         private bool IsLastStep()
         {
-            return (!_activeWizard.IsLastStep() || _wizardStack.Count != 0);
+            return (_activeWizard.IsLastStep() && _wizardStack.Count == 0);
+
         }
 
         private void WireEventsToView(IWizardView view)
