@@ -38,7 +38,7 @@ namespace WizardFX
 
             _activeWizard.MoveNext();
 
-            if (!_activeWizard.InProcess)
+            if (!_activeWizard.IsInProcess)
             {
                 var resumeFromTitle = _activeWizard.Title;
                 var returnArgs = _activeWizard.Args;
@@ -52,7 +52,7 @@ namespace WizardFX
                     view.Unload();
             }
 
-            if (_activeWizard.InProcess)
+            if (_activeWizard.IsInProcess)
                 ShowWizard(view);
         }
 

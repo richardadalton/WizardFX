@@ -8,6 +8,17 @@ namespace WizardFXTests
     class WizardStepTests
     {
         [Test]
+        public void step_parent_wizard_is_set()
+        {
+            var step = new WizardStep();
+
+            var wizard = new Wizard()
+                .AddStep(step);
+
+            Assert.AreEqual(wizard, step.ParentWizard);
+        }
+
+        [Test]
         public void a_step_can_prevent_move_next_from_happening()
         {
             var step1 = new MockStepFactory().AStep.ThatCanNotMoveNext.Stub();
@@ -94,6 +105,5 @@ namespace WizardFXTests
 
             wizard.JumpToStep(1);
         }
-
     }
 }

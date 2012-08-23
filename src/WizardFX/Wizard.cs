@@ -6,8 +6,10 @@ namespace WizardFX
     public class Wizard
     {
         private readonly string _title;
-        private readonly List<IWizardStep> _steps = new List<IWizardStep>();
+
         private int _currentStepIndex;
+        private readonly List<IWizardStep> _steps = new List<IWizardStep>();
+
         private readonly Args _args = new Args();
         private WizardController _controller;
         
@@ -29,7 +31,7 @@ namespace WizardFX
             get { return _args; }
         }
 
-        public bool InProcess { get; private set; }
+        public bool IsInProcess { get; private set; }
 
         public bool IsFirstStep()
         {
@@ -60,12 +62,12 @@ namespace WizardFX
                 throw new ApplicationException("Can not start an empty Wizard");
 
             _currentStepIndex = 1;
-            InProcess = true;
+            IsInProcess = true;
         }
 
         public void MovePrevious()
         {
-            if (!InProcess)
+            if (!IsInProcess)
                 throw new ApplicationException("Wizard is not started, can't move previous.");
 
             DoMovePrevious();
@@ -73,7 +75,7 @@ namespace WizardFX
 
         public void MoveNext()
         {
-            if (!InProcess)
+            if (!IsInProcess)
                 throw new ApplicationException("Wizard is not started, can't move next.");
 
             DoMoveNext();
@@ -81,7 +83,7 @@ namespace WizardFX
 
         public void JumpToStep(int step)
         {
-            if (!InProcess)
+            if (!IsInProcess)
                 throw new ApplicationException("Wizard is not started, can't jump to a step.");
 
             CurrentStep.LeavingStep();
@@ -98,7 +100,7 @@ namespace WizardFX
 
         public void Exit()
         {
-            InProcess = false;
+            IsInProcess = false;
         }
 
         private void DoMoveNext()

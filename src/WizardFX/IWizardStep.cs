@@ -7,6 +7,7 @@
 
         bool OkToMoveNext();
         bool OkToMovePrevious();
+
         void Visit();
         void FirstTimeVisited();
         void EveryTimeVisited();
