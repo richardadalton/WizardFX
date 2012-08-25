@@ -49,7 +49,7 @@ namespace WizardFX
                     CurrentStep.ResumeFrom(resumeFromTitle, returnArgs);
                 }
                 else
-                    view.Unload();
+                    view.Unload(_activeWizard.Args);
             }
 
             if (_activeWizard.IsInProcess)
@@ -76,7 +76,7 @@ namespace WizardFX
                 ShowWizard(view);
             }
             else
-                view.Unload();
+                view.Unload(_activeWizard.Args);
         }
 
         private void ShowWizard(IWizardView view)

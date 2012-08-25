@@ -30,7 +30,7 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.wizardView = new WizardFX.WizardView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -49,7 +49,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox);
             this.splitContainer1.Size = new System.Drawing.Size(993, 594);
             this.splitContainer1.SplitterDistance = 475;
             this.splitContainer1.TabIndex = 0;
@@ -65,14 +65,14 @@
             this.wizardView.TabIndex = 0;
             this.wizardView.Unloaded += new System.EventHandler(this.wizard_view_unloaded);
             // 
-            // textBox1
+            // textBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(514, 594);
-            this.textBox1.TabIndex = 0;
+            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox.Location = new System.Drawing.Point(0, 0);
+            this.textBox.Multiline = true;
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(514, 594);
+            this.textBox.TabIndex = 0;
             // 
             // Form1
             // 
@@ -94,7 +94,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox;
         public WizardFX.WizardView wizardView;
     }
 }

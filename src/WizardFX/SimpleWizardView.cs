@@ -30,7 +30,7 @@ namespace WizardFX
             wizardView.ShowStep(step);
         }
 
-        public void Unload()
+        public void Unload(Args arguments)
         { }
 
         private void wizard_view_moved_previous(object sender, EventArgs e)

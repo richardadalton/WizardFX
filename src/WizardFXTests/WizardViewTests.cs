@@ -55,20 +55,20 @@ namespace WizardFXTests
             view.Verify(m => m.ShowStep(step), Times.AtMostOnce());
         }
 
-        [Test]
-        public void GivenAStartedWizard_OnFinish_ViewIsUnloaded()
-        {
-            var view = new MockViewFactory().AView.Mock();
-            var controller = new WizardController(view.Object);
+        //[Test]
+        //public void GivenAStartedWizard_OnFinish_ViewIsUnloaded()
+        //{
+        //    var view = new MockViewFactory().AView.Mock();
+        //    var controller = new WizardController(view.Object);
 
-            var step = new WizardStep();
-            var wizard = new Wizard()
-                    .AddStep(step);
+        //    var step = new WizardStep();
+        //    var wizard = new Wizard()
+        //            .AddStep(step);
 
-            controller.Start(wizard);
-            view.Raise(v => v.MovedNext += null, EventArgs.Empty);
-            view.Verify(m => m.Unload());
-        }
+        //    controller.Start(wizard);
+        //    view.Raise(v => v.MovedNext += null, EventArgs.Empty);
+        //    view.Verify(m => m.Unload());
+        //}
 
 
     }

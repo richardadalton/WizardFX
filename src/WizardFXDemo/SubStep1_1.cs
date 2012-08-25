@@ -14,7 +14,7 @@
 
         public override void LeavingStep()
         {
-            ParentWizard.Args.Add("Value", textBox1.Text);
+            StoreValue("Value", textBox1.Text);
         }
     }
 }

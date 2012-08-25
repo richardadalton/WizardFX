@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
 using WizardFX;
 
 namespace EmbeddedWizardDemo
@@ -19,6 +21,20 @@ namespace EmbeddedWizardDemo
 
         private void wizard_view_unloaded(object sender, System.EventArgs e)
         {
+            var arguments = e as WizardEventArgs;
+
+            var sb = new StringBuilder();
+            sb.AppendLine(arguments.Arguments["Name"].ToString());
+            sb.AppendLine(arguments.Arguments["Address"].ToString());
+            sb.AppendLine(arguments.Arguments["Email"].ToString());
+
+            foreach (var course in arguments.Arguments["Courses"] as List<string>)
+                sb.AppendLine(course);
+
+            textBox.Text = sb.ToString();
+
+
+            // TODO: Shouldn't Rely on the Hosting Form to do this. 
             wizardView.Enabled = false;
         }
     }

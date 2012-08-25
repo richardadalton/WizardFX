@@ -8,5 +8,12 @@ namespace EmbeddedWizardDemo
         {
             InitializeComponent();
         }
+
+        public override void LeavingStep()
+        {
+            StoreValue("Name", txtName.Text);
+            StoreValue("Address", txtAddress.Text);
+            StoreValue("Email", txtEmail.Text);
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace WizardFX
         public event EventHandler Cancelled;
         public event EventHandler Unloaded;
 
+        public event EventHandler Finished;
+
         public bool CanMoveNext { get; set; }
         public bool CanMovePrevious { get; set; }
 
@@ -34,9 +36,10 @@ namespace WizardFX
             DisplayStepWithinView(step);
         }
 
-        public void Unload()
+        public void Unload(Args args)
         {
-            if (Unloaded != null) Unloaded(this, EventArgs.Empty);
+            var arguments = new WizardEventArgs(args);
+            if (Unloaded != null) Unloaded(this, arguments);
         }
 
         public virtual void OnMovePrevious(EventArgs e)

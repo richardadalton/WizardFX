@@ -40,6 +40,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateCourse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateCourse.Designer.cs">
+      <DependentUpon>CreateCourse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     <Compile Include="Step2.Designer.cs">
       <DependentUpon>Step2.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CreateCourse.resx">
+      <DependentUpon>CreateCourse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -74,6 +83,9 @@
     </Compile>
     <EmbeddedResource Include="Step1.resx">
       <DependentUpon>Step1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Step2.resx">
+      <DependentUpon>Step2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

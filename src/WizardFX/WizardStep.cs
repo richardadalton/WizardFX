@@ -50,6 +50,11 @@ namespace WizardFX
             ParentWizard.StartSubWizard(subWizard);
         }
 
+        public void StoreValue(string key, object value)
+        {
+            ParentWizard.Args.AddOrReplace(key, value);
+        }
+
         public virtual void FirstTimeVisited() { }
         public virtual void EveryTimeVisited() { }
         public virtual void LeavingStep() { }

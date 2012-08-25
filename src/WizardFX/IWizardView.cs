@@ -12,6 +12,6 @@ namespace WizardFX
         void IsLastStep(bool value);
 
         void ShowStep(IWizardStep step);
-        void Unload();
+        void Unload(Args arguments);
     }
 }

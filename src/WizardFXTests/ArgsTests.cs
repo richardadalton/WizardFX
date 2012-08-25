@@ -14,24 +14,6 @@ namespace WizardFXTests
         }
 
         [Test]
-        public void can_add_arg()
-        {
-            var args = new Args();
-            args.Add("arg1", 1);
-
-            Assert.AreEqual(1, args.Count);
-        }
-
-        [Test]
-        public void can_retrieve_arg()
-        {
-            var args = new Args();
-            args.Add("arg1", "Test");
-
-            Assert.AreEqual("Test", args["arg1"]);
-        }
-
-        [Test]
         public void can_replace_arg()
         {
             var args = new Args();

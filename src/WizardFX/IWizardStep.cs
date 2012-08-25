@@ -13,8 +13,10 @@
         void EveryTimeVisited();
         void LeavingStep();
 
-        void StartSubWizard(Wizard subWizard);
         void ResumeFrom(string wizardName, Args args);
         void ResumeFrom(string wizardName);
+
+        void StartSubWizard(Wizard subWizard);
+        void StoreValue(string key, object value);
     }
 }
