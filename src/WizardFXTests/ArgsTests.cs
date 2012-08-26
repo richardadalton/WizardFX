@@ -23,16 +23,6 @@ namespace WizardFXTests
             Assert.AreEqual("B", args["arg1"]);
         }
 
-
-        [Test]
-        [ExpectedException("System.ApplicationException")]
-        public void add_arg_when_already_exists_throws_exception()
-        {
-            var args = new Args();
-            args.Add("arg1", "A");
-            args.Add("arg1", "B");
-        }
-
         [Test]
         public void new_step_has_0_args()
         {
@@ -45,8 +35,8 @@ namespace WizardFXTests
         {
             var step = new WizardStep();
 
-            step.Args.Add("arg1", "A");
-            step.Args.Add("arg2", "B");
+            step.Args.AddOrReplace("arg1", "A");
+            step.Args.AddOrReplace("arg2", "B");
 
             Assert.AreEqual(2, step.Args.Count);
             Assert.AreEqual("A", step.Args["arg1"]);
@@ -57,8 +47,8 @@ namespace WizardFXTests
         public void can_add_colection_of_args_to_a_step_in_constructor()
         {
             var args = new Args();
-            args.Add("arg1", "A");
-            args.Add("arg2", "B");
+            args.AddOrReplace("arg1", "A");
+            args.AddOrReplace("arg2", "B");
 
             var step = new WizardStep(args);
 
